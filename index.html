@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Test de 10 Preguntas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+    .options {
+      list-style: none;
+      padding: 0;
+    }
+    .options li {
+      margin-bottom: 8px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 1em;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .message {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test de 10 Preguntas</h1>
+    <div id="quiz">
+      <!-- El contenido de cada pregunta se inyectará aquí mediante JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    // Array con 10 preguntas, cada una con 4 opciones y la respuesta correcta.
+    const questions = [
+      {
+        question: "Pregunta 1: ¿Cuál es la capital de Francia?",
+        options: ["Londres", "París", "Roma", "Berlín"],
+        correct: 1, // Índice de "París"
+        message: "¡Correcto! París es la capital de Francia."
+      },
+      {
+        question: "Pregunta 2: ¿Cuál es el planeta más cercano al Sol?",
+        options: ["Mercurio", "Venus", "Tierra", "Marte"],
+        correct: 0,
+        message: "¡Bien hecho! Mercurio es el planeta más cercano al Sol."
+      },
+      {
+        question: "Pregunta 3: ¿Cuánto es 2 + 2?",
+        options: ["3", "4", "5", "6"],
+        correct: 1,
+        message: "¡Exacto! 2 + 2 es igual a 4."
+      },
+      {
+        question: "Pregunta 4: ¿Cuál es el idioma oficial de Brasil?",
+        options: ["Español", "Portugués", "Inglés", "Francés"],
+        correct: 1,
+        message: "¡Correcto! En Brasil se habla portugués."
+      },
+      {
+        question: "Pregunta 5: ¿Qué animal es conocido como el mejor amigo del hombre?",
+        options: ["Gato", "Pájaro", "Perro", "Conejo"],
+        correct: 2,
+        message: "¡Exacto! El perro es el mejor amigo del hombre."
+      },
+      {
+        question: "Pregunta 6: ¿En qué continente se encuentra Egipto?",
+        options: ["Asia", "África", "Europa", "América"],
+        correct: 1,
+        message: "¡Muy bien! Egipto está en África."
+      },
+      {
+        question: "Pregunta 7: ¿Cuál es el océano más grande?",
+        options: ["Atlántico", "Índico", "Ártico", "Pacífico"],
+        correct: 3,
+        message: "¡Correcto! El océano Pacífico es el más grande."
+      },
+      {
+        question: "Pregunta 8: ¿Quién escribió 'Don Quijote'?",
+        options: ["Gabriel García Márquez", "Jorge Luis Borges", "Miguel de Cervantes", "Pablo Neruda"],
+        correct: 2,
+        message: "¡Bien hecho! Miguel de Cervantes escribió 'Don Quijote'."
+      },
+      {
+        question: "Pregunta 9: ¿Cuál es el símbolo químico del agua?",
+        options: ["O2", "H2O", "CO2", "NaCl"],
+        correct: 1,
+        message: "¡Correcto! H2O es el símbolo del agua."
+      },
+      {
+        question: "Pregunta 10: ¿En qué año llegó el hombre a la luna?",
+        options: ["1965", "1969", "1972", "1959"],
+        correct: 1,
+        message: "¡Muy bien! 1969 es el año en que el hombre llegó a la luna."
+      }
+    ];
+
+    let currentQuestion = 0;
+
+    // Función para mostrar cada pregunta
+    function showQuestion() {
+      const quizDiv = document.getElementById('quiz');
+      quizDiv.innerHTML = '';
+
+      // Si se completaron todas las preguntas, mostrar mensaje final
+      if (currentQuestion >= questions.length) {
+        quizDiv.innerHTML = '<h2>¡Has completado el test!</h2>';
+        return;
+      }
+
+      const q = questions[currentQuestion];
+
+      // Crear elemento para la pregunta
+      const questionEl = document.createElement('div');
+      questionEl.className = 'question';
+      questionEl.textContent = q.question;
+      quizDiv.appendChild(questionEl);
+
+      // Crear lista para las opciones
+      const optionsList = document.createElement('ul');
+      optionsList.className = 'options';
+
+      q.options.forEach((option, index) => {
+        const li = document.createElement('li');
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'option';
+        radio.value = index;
+        radio.id = 'option' + index;
+
+        const label = document.createElement('label');
+        label.htmlFor = 'option' + index;
+        label.textContent = option;
+
+        li.appendChild(radio);
+        li.appendChild(label);
+        optionsList.appendChild(li);
+      });
+      quizDiv.appendChild(optionsList);
+
+      // Botón para enviar la respuesta
+      const submitButton = document.createElement('button');
+      submitButton.textContent = 'Responder';
+      submitButton.onclick = checkAnswer;
+      quizDiv.appendChild(submitButton);
+    }
+
+    // Función para verificar la respuesta seleccionada
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="option"]:checked');
+      if (!selected) {
+        alert('Por favor, selecciona una opción.');
+        return;
+      }
+
+      const answer = parseInt(selected.value);
+      const q = questions[currentQuestion];
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message';
+
+      // Si la respuesta es correcta, se muestra el mensaje específico
+      // Si es incorrecta, se muestra un comentario gracioso y se toma como correcta igualmente
+      if (answer === q.correct) {
+        messageDiv.textContent = q.message;
+      } else {
+        messageDiv.textContent = "¡Casi lo logras! Pero de todos modos, ¡sigamos adelante! (Se consideró correcta a pesar de todo).";
+      }
+
+      const quizDiv = document.getElementById('quiz');
+      // Deshabilitar el botón para evitar respuestas múltiples
+      const submitButton = quizDiv.querySelector('button');
+      submitButton.disabled = true;
+
+      quizDiv.appendChild(messageDiv);
+
+      // Pasar a la siguiente pregunta después de 2 segundos
+      setTimeout(() => {
+        currentQuestion++;
+        showQuestion();
+      }, 2000);
+    }
+
+    // Iniciar el test
+    showQuestion();
+  </script>
+</body>
+</html>
