@@ -18,7 +18,7 @@
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    h1 {
+    h1, h2 {
       text-align: center;
     }
     .question {
@@ -43,13 +43,23 @@
       font-weight: bold;
       color: #333;
     }
+    .final-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .final-section input {
+      padding: 8px;
+      font-size: 1em;
+      width: 80%;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Test de 10 Preguntas</h1>
     <div id="quiz">
-      <!-- El contenido de cada pregunta se inyectará aquí mediante JavaScript -->
+      <!-- Se inyecta el contenido del test aquí -->
     </div>
   </div>
 
@@ -59,7 +69,7 @@
       {
         question: "Pregunta 1: ¿Cuál es la capital de Francia?",
         options: ["Londres", "París", "Roma", "Berlín"],
-        correct: 1, // Índice de "París"
+        correct: 1,
         message: "¡Correcto! París es la capital de Francia."
       },
       {
@@ -120,26 +130,35 @@
 
     let currentQuestion = 0;
 
-    // Función para mostrar cada pregunta
+    // Función para mostrar cada pregunta o la sección final.
     function showQuestion() {
       const quizDiv = document.getElementById('quiz');
       quizDiv.innerHTML = '';
 
-      // Si se completaron todas las preguntas, mostrar mensaje final
+      // Si se completaron todas las preguntas, muestra la sección final.
       if (currentQuestion >= questions.length) {
-        quizDiv.innerHTML = '<h2>¡Has completado el test!</h2>';
+        quizDiv.innerHTML = `
+          <div class="final-section">
+            <h2>¡Aprobaste con el 100%!</h2>
+            <p>Para continuar, escribe <strong>"luca estaciona mejor que nadie"</strong> en el campo y presiona Enviar.</p>
+            <input type="text" id="finalInput" placeholder="Escribe aquí...">
+            <br>
+            <button onclick="checkFinal()">Enviar</button>
+            <div id="finalMessage" class="message"></div>
+          </div>
+        `;
         return;
       }
 
       const q = questions[currentQuestion];
 
-      // Crear elemento para la pregunta
+      // Crear elemento para la pregunta.
       const questionEl = document.createElement('div');
       questionEl.className = 'question';
       questionEl.textContent = q.question;
       quizDiv.appendChild(questionEl);
 
-      // Crear lista para las opciones
+      // Crear lista para las opciones.
       const optionsList = document.createElement('ul');
       optionsList.className = 'options';
 
@@ -162,14 +181,14 @@
       });
       quizDiv.appendChild(optionsList);
 
-      // Botón para enviar la respuesta
+      // Botón para enviar la respuesta.
       const submitButton = document.createElement('button');
       submitButton.textContent = 'Responder';
       submitButton.onclick = checkAnswer;
       quizDiv.appendChild(submitButton);
     }
 
-    // Función para verificar la respuesta seleccionada
+    // Función para verificar la respuesta seleccionada.
     function checkAnswer() {
       const selected = document.querySelector('input[name="option"]:checked');
       if (!selected) {
@@ -183,8 +202,7 @@
       const messageDiv = document.createElement('div');
       messageDiv.className = 'message';
 
-      // Si la respuesta es correcta, se muestra el mensaje específico
-      // Si es incorrecta, se muestra un comentario gracioso y se toma como correcta igualmente
+      // Se muestra el mensaje correspondiente y, aunque la respuesta sea incorrecta, se considera correcta a modo de broma.
       if (answer === q.correct) {
         messageDiv.textContent = q.message;
       } else {
@@ -192,21 +210,31 @@
       }
 
       const quizDiv = document.getElementById('quiz');
-      // Deshabilitar el botón para evitar respuestas múltiples
       const submitButton = quizDiv.querySelector('button');
       submitButton.disabled = true;
-
       quizDiv.appendChild(messageDiv);
 
-      // Pasar a la siguiente pregunta después de 2 segundos
+      // Pasar a la siguiente pregunta después de 2 segundos.
       setTimeout(() => {
         currentQuestion++;
         showQuestion();
       }, 2000);
     }
 
-    // Iniciar el test
+    // Función para verificar la frase ingresada en la sección final.
+    function checkFinal() {
+      const userInput = document.getElementById('finalInput').value;
+      const finalMessageDiv = document.getElementById('finalMessage');
+      if (userInput.trim() === 'luca estaciona mejor que nadie') {
+          finalMessageDiv.textContent = 'ABC';
+      } else {
+          alert('El texto ingresado no es correcto. Inténtalo de nuevo.');
+      }
+    }
+
+    // Iniciar el test.
     showQuestion();
   </script>
 </body>
 </html>
+
