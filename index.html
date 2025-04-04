@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #ffc0cb;
+      background-color: #ffccff;
       margin: 0;
       padding: 20px;
     }
@@ -62,90 +62,9 @@
   </div>
 
   <script>
-    const questions = [...]; // Mantener el array de preguntas igual
-
-    let currentQuestion = 0;
-
-    function showQuestion() {
-      const quizDiv = document.getElementById('quiz');
-      quizDiv.innerHTML = '';
-      if (currentQuestion >= questions.length) {
-        quizDiv.innerHTML = `
-          <div class="final-section">
-            <h2>TE SACASTE 100% MI AMOR</h2>
-            <p>Si querés el regalo, escribí <strong>"luca estaciona mejor que nadie"</strong>.</p>
-            <input type="text" id="finalInput" placeholder="Escribe aquí...">
-            <br>
-            <button onclick="checkFinal()">Enviar</button>
-            <div id="finalMessage" class="message"></div>
-          </div>
-        `;
-        return;
-      }
-      const q = questions[currentQuestion];
-      const questionEl = document.createElement('div');
-      questionEl.className = 'question';
-      questionEl.textContent = q.question;
-      quizDiv.appendChild(questionEl);
-      const optionsList = document.createElement('ul');
-      optionsList.className = 'options';
-      q.options.forEach((option, index) => {
-        const li = document.createElement('li');
-        const radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.name = 'option';
-        radio.value = index;
-        radio.id = 'option' + index;
-        const label = document.createElement('label');
-        label.htmlFor = 'option' + index;
-        label.textContent = option;
-        li.appendChild(radio);
-        li.appendChild(label);
-        optionsList.appendChild(li);
-      });
-      quizDiv.appendChild(optionsList);
-      const submitButton = document.createElement('button');
-      submitButton.textContent = 'Responder';
-      submitButton.onclick = checkAnswer;
-      quizDiv.appendChild(submitButton);
-    }
-
-    function checkAnswer() {
-      const selected = document.querySelector('input[name="option"]:checked');
-      if (!selected) {
-        alert('da');
-        return;
-      }
-      const answer = parseInt(selected.value);
-      const q = questions[currentQuestion];
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message';
-      if (answer === q.correct) {
-        messageDiv.innerHTML = q.message + ' <span style="color: green;">&#x2714;</span>';
-      } else {
-        messageDiv.innerHTML = "Respondiste mal. Te aparece correcta porque me gustan tus ojos y te la voy a dar como válida. <span style='color: green;'>&#x2714;</span>";
-      }
-      const quizDiv = document.getElementById('quiz');
-      const submitButton = quizDiv.querySelector('button');
-      submitButton.disabled = true;
-      quizDiv.appendChild(messageDiv);
-      setTimeout(() => {
-        currentQuestion++;
-        showQuestion();
-      }, 3000);
-    }
-
-    function checkFinal() {
-      const userInput = document.getElementById('finalInput').value;
-      const finalMessageDiv = document.getElementById('finalMessage');
-      if (userInput.trim() === 'luca estaciona mejor que nadie') {
-          finalMessageDiv.textContent = 'Abrir terminal. Copiar y pegar: Invoke-Item "C:/Users/lucap/OneDrive/Documents/CHICL/topmegasecret_chicl.mp4"';
-      } else {
-          alert('da');
-      }
-    }
-
-    showQuestion();
+    document.addEventListener("DOMContentLoaded", function() {
+      showQuestion();
+    });
   </script>
 </body>
 </html>
