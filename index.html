@@ -139,8 +139,8 @@
       if (currentQuestion >= questions.length) {
         quizDiv.innerHTML = `
           <div class="final-section">
-            <h2>¡Aprobaste con el 100%!</h2>
-            <p>Para continuar, escribe <strong>"luca estaciona mejor que nadie"</strong> en el campo y presiona Enviar.</p>
+            <h2>TE SACASTE 100% MI AMOR</h2>
+            <p>Si querés el regalo, escribí <strong>"luca estaciona mejor que nadie"</strong> total ya sabes que es la verdad.</p>
             <input type="text" id="finalInput" placeholder="Escribe aquí...">
             <br>
             <button onclick="checkFinal()">Enviar</button>
@@ -192,7 +192,7 @@
     function checkAnswer() {
       const selected = document.querySelector('input[name="option"]:checked');
       if (!selected) {
-        alert('Por favor, selecciona una opción.');
+        alert('da');
         return;
       }
 
@@ -227,9 +227,9 @@
       const userInput = document.getElementById('finalInput').value;
       const finalMessageDiv = document.getElementById('finalMessage');
       if (userInput.trim() === 'luca estaciona mejor que nadie') {
-          finalMessageDiv.textContent = 'Abrir terminal. Invoke-Item "C:\Users\lucap\OneDrive\Documents\CHICL\topmegasecret_chicl.mp4"';
+          finalMessageDiv.textContent = 'Abrir terminal. Copiar y pegar: Invoke-Item "C:/Users/lucap/OneDrive/Documents/CHICL/topmegasecret_chicl.mp4"';
       } else {
-          alert('El texto ingresado no es correcto. Inténtalo de nuevo.');
+          alert('da');
       }
     }
 
